@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="STRM turns the work you already do into a living career record. Capture wins, discover your skills, and prepare for your next review, raise, or role.">
+<meta property="og:title" content="STRM">
+<meta property="og:description" content="Every workday is part of your career story.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Cpath d='M3 19 C 8 19, 8 7, 13 7 S 18 19, 23 19' fill='none' stroke='%230B6E5B' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='23' cy='19' r='3' fill='%230B6E5B'/%3E%3C/svg%3E">
+<title>STRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one continuous "career strand" runs down the page; sections hang off it like entries in a record. */
+:root {
+  --paper: #F4F7F6;
+  --surface: #FFFFFF;
+  --ink: #0E1A17;
+  --muted: #56665F;
+  --line: #D9E2DE;
+  --accent: #0B6E5B;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #DCEFE8;
+  --win: #A8650F;
+  --win-soft: #F7EAD3;
+  --sugg: #5B47C2;
+  --sugg-soft: #E9E5FA;
+  --shadow: 0 1px 2px rgba(14,26,23,.06), 0 12px 32px rgba(14,26,23,.08);
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --wrap: 1120px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0A1110; --surface: #111A18; --ink: #E5EEEA; --muted: #93A49D; --line: #22302C;
+    --accent: #45C7A7; --accent-ink: #06201A; --accent-soft: #12302A;
+    --win: #E8AC52; --win-soft: #33281A; --sugg: #AB9BF6; --sugg-soft: #241F40;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0A1110; --surface: #111A18; --ink: #E5EEEA; --muted: #93A49D; --line: #22302C;
+  --accent: #45C7A7; --accent-ink: #06201A; --accent-soft: #12302A;
+  --win: #E8AC52; --win-soft: #33281A; --sugg: #AB9BF6; --sugg-soft: #241F40;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font: 16px/1.6 var(--f-body); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding-inline: 20px; }
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.05; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+h2 { font-size: clamp(2rem, 4.2vw, 3rem); font-weight: 700; }
+h3 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: inherit; }
+.eyebrow { font: 500 .75rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .12em; color: var(--accent); }
+.lede { color: var(--muted); font-size: 1.125rem; max-width: 60ch; }
+button, input, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+.btn { display: inline-flex; align-items: center; gap: .5em; border: 0; border-radius: 999px; padding: .8em 1.4em; font-weight: 600; cursor: pointer; text-decoration: none; transition: transform .15s ease, background .15s ease; }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+.btn-ghost:hover { box-shadow: inset 0 0 0 1px var(--muted); }
+
+/* Nav */
+header.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 64px; }
+.logo { font: 800 1.4rem/1 var(--f-display); letter-spacing: .02em; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.logo svg { width: 26px; height: 26px; }
+.nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; font-size: .95rem; }
+.nav ul a { text-decoration: none; color: var(--muted); }
+.nav ul a:hover { color: var(--ink); }
+@media (max-width: 860px) { .nav ul { display: none; } }
+
+/* Hero */
+.hero { padding-block: 72px 56px; }
+.hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; }
+.hero h1 { font-size: clamp(2.6rem, 6.4vw, 5rem); font-weight: 800; letter-spacing: -0.035em; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lede { margin-top: 24px; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.trust { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 28px; font-size: .875rem; color: var(--muted); }
+.trust span { display: inline-flex; align-items: center; gap: 6px; }
+.trust span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } .hero { padding-block: 48px 40px; } }
+
+/* Phone */
+.phone { width: 320px; max-width: 100%; margin-inline: auto; background: var(--surface); border-radius: 40px; padding: 14px; box-shadow: var(--shadow), inset 0 0 0 1px var(--line); }
+.screen { border-radius: 28px; background: var(--paper); padding: 22px 18px 18px; display: grid; gap: 14px; }
+.screen .hello { font: 700 1.3rem/1.15 var(--f-display); }
+.screen .sub { font-size: .85rem; color: var(--muted); }
+.ring-row { display: flex; align-items: center; gap: 14px; background: var(--surface); border-radius: 18px; padding: 14px; }
+.ring { width: 64px; height: 64px; flex: none; }
+.ring-row b { font: 700 1.05rem var(--f-display); display: block; }
+.ring-row small { color: var(--muted); font-size: .78rem; line-height: 1.35; display: block; }
+.choice { display: flex; align-items: center; gap: 12px; background: var(--surface); border-radius: 16px; padding: 12px 14px; font-size: .9rem; }
+.choice i { width: 34px; height: 34px; border-radius: 10px; flex: none; display: grid; place-items: center; font-style: normal; font: 600 .95rem var(--f-mono); }
+.choice b { display: block; font-weight: 600; }
+.choice small { color: var(--muted); font-size: .78rem; }
+.c-win i { background: var(--win-soft); color: var(--win); }
+.c-skill i { background: var(--accent-soft); color: var(--accent); }
+.c-explore i { background: var(--sugg-soft); color: var(--sugg); }
+.streak { display: flex; justify-content: space-between; font: 500 .7rem var(--f-mono); color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.dots { display: flex; gap: 5px; }
+.dots span { width: 9px; height: 9px; border-radius: 3px; background: var(--line); }
+.dots span.on { background: var(--accent); }
+
+/* Sections */
+section.block { padding-block: 88px; border-top: 1px solid var(--line); }
+.head { display: grid; gap: 16px; margin-bottom: 48px; max-width: 760px; }
+
+/* Positioning strip */
+.compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+.compare > div { background: var(--surface); padding: 28px; display: grid; gap: 8px; align-content: start; }
+.compare .k { font: 500 .72rem var(--f-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.compare h3 { font-size: 1.15rem; }
+.compare p { color: var(--muted); font-size: .95rem; }
+@media (max-width: 760px) { .compare { grid-template-columns: 1fr; } }
+
+/* Discovery demo */
+.demo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 24px; display: grid; gap: 16px; align-content: start; min-width: 0; }
+.panel label { font-weight: 600; }
+.samples { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { border: 1px solid var(--line); background: var(--paper); border-radius: 999px; padding: .35em .9em; font-size: .85rem; cursor: pointer; }
+.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+textarea { width: 100%; min-height: 190px; resize: vertical; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); padding: 14px; line-height: 1.55; font-size: .95rem; }
+.tally { display: flex; flex-wrap: wrap; gap: 8px 16px; font: 500 .75rem var(--f-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.tally b { color: var(--ink); }
+.skills { display: grid; gap: 10px; list-style: none; margin: 0; padding: 0; }
+.skill { border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; align-items: center; animation: rise .35s ease both; }
+.skill .name { font-weight: 600; }
+.skill .why { grid-column: 1 / -1; font-size: .82rem; color: var(--muted); overflow-wrap: anywhere; }
+.skill .acts { display: flex; gap: 6px; }
+.skill .acts button { border: 1px solid var(--line); background: var(--paper); border-radius: 8px; padding: .25em .7em; font-size: .8rem; cursor: pointer; }
+.skill.confirmed { border-color: var(--accent); }
+.skill.dismissed { opacity: .45; }
+.empty { color: var(--muted); font-size: .95rem; border: 1px dashed var(--line); border-radius: 14px; padding: 24px; text-align: center; }
+@keyframes rise { from { transform: translateY(6px); opacity: .3; } to { transform: none; opacity: 1; } }
+@media (max-width: 860px) { .demo { grid-template-columns: 1fr; } }
+
+/* Provenance tags */
+.tag { display: inline-flex; align-items: center; gap: 6px; font: 500 .68rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .08em; padding: .45em .7em; border-radius: 6px; white-space: nowrap; }
+.tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.t-confirmed { background: var(--accent-soft); color: var(--accent); }
+.t-inferred { background: var(--win-soft); color: var(--win); }
+.t-suggested { background: var(--sugg-soft); color: var(--sugg); }
+
+/* Vault */
+.vault { display: grid; grid-template-columns: .85fr 1.15fr; gap: 48px; align-items: start; }
+.vault-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.vault-list li { display: grid; gap: 4px; padding-left: 18px; border-left: 2px solid var(--line); }
+.vault-list b { font-weight: 600; }
+.vault-list span { color: var(--muted); font-size: .95rem; }
+.record { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; }
+.record-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.record-top b { font: 700 1.05rem var(--f-display); }
+.record-top small { color: var(--muted); font-size: .85rem; }
+.entry { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; padding: 16px 22px; border-bottom: 1px solid var(--line); align-items: start; }
+.entry:last-child { border-bottom: 0; }
+.entry p { font-size: .95rem; min-width: 0; }
+.entry small { grid-column: 1; color: var(--muted); font-size: .8rem; }
+.rule { margin-top: 24px; padding: 18px 20px; border-radius: 14px; background: var(--accent-soft); color: var(--ink); font-size: .95rem; }
+.rule b { color: var(--accent); }
+@media (max-width: 900px) { .vault { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .entry { grid-template-columns: 1fr; } .entry small { grid-column: auto; } }
+
+/* Daily */
+.daily { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.act { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 28px; display: grid; gap: 12px; align-content: start; }
+.act .time { font: 500 .72rem var(--f-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.act p { color: var(--muted); }
+.act .prompt { margin-top: 6px; padding: 12px 14px; border-radius: 12px; background: var(--paper); color: var(--ink); font-size: .92rem; }
+.act-win h3 { color: var(--win); }
+.act-skill h3 { color: var(--accent); }
+.act-explore h3 { color: var(--sugg); }
+.principles { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 32px; color: var(--muted); font-size: .95rem; }
+.principles b { color: var(--ink); font-weight: 600; }
+@media (max-width: 860px) { .daily { grid-template-columns: 1fr; } }
+
+/* Stages */
+.strand { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 32px; }
+.strand::before { content: ""; position: absolute; left: 4%; right: 4%; top: 15px; height: 2px; background: var(--line); }
+.stage-btn { position: relative; background: none; border: 0; padding: 0; cursor: pointer; display: grid; justify-items: center; gap: 10px; text-align: center; }
+.stage-btn .node { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--surface); border: 2px solid var(--line); font: 500 .75rem var(--f-mono); color: var(--muted); transition: all .2s ease; }
+.stage-btn .lbl { font-weight: 600; font-size: .92rem; color: var(--muted); }
+.stage-btn[aria-selected="true"] .node { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.stage-btn[aria-selected="true"] .lbl { color: var(--ink); }
+.stage-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.stage-card h3 { font-size: 1.8rem; }
+.stage-card .who { color: var(--muted); margin-top: 10px; }
+.stage-card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.stage-card li { display: flex; gap: 10px; font-size: .95rem; }
+.stage-card li::before { content: ""; flex: none; width: 6px; height: 6px; margin-top: .65em; border-radius: 50%; background: var(--accent); }
+.stage-card .example { margin-top: 20px; padding: 16px; border-radius: 14px; background: var(--paper); font-size: .92rem; }
+.stage-card .example b { display: block; font: 500 .7rem var(--f-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 6px; }
+.statuses { margin-top: 40px; display: grid; gap: 14px; }
+.statuses .row { display: flex; flex-wrap: wrap; gap: 8px; }
+.status { border: 1px solid var(--line); border-radius: 999px; padding: .4em 1em; font-size: .88rem; background: var(--surface); }
+@media (max-width: 760px) {
+  .strand { grid-template-columns: repeat(3, 1fr); row-gap: 20px; }
+  .strand::before { display: none; }
+  .stage-card { grid-template-columns: 1fr; padding: 24px; }
+}
+
+/* Studio */
+.studio { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.docs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
+.doc { border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; background: var(--surface); display: grid; gap: 4px; }
+.doc b { font-weight: 600; font-size: .95rem; }
+.doc small { color: var(--muted); font: 500 .7rem var(--f-mono); text-transform: uppercase; letter-spacing: .08em; }
+.sheet { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; box-shadow: var(--shadow); padding: 36px 34px; font-size: .86rem; line-height: 1.5; display: grid; gap: 14px; }
+.sheet .title { font: 700 1.25rem var(--f-display); }
+.sheet .meta { color: var(--muted); font-size: .8rem; }
+.sheet h4 { margin: 0; font: 600 .72rem var(--f-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--accent); border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.sheet ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.sheet .verify { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding-top: 12px; border-top: 1px dashed var(--line); color: var(--muted); font-size: .8rem; }
+@media (max-width: 900px) { .studio { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .docs { grid-template-columns: 1fr; } .sheet { padding: 24px 20px; } }
+
+/* Coach */
+.coach { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+.chat { display: grid; gap: 12px; }
+.msg { max-width: 88%; padding: 14px 16px; border-radius: 18px; font-size: .95rem; }
+.msg.ai { background: var(--surface); border: 1px solid var(--line); border-bottom-left-radius: 6px; }
+.msg.me { background: var(--accent); color: var(--accent-ink); justify-self: end; border-bottom-right-radius: 6px; }
+.msg .who { display: block; font: 500 .68rem var(--f-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 4px; }
+.traits { display: grid; gap: 18px; margin-top: 28px; }
+.traits div { display: grid; gap: 2px; }
+.traits b { font-weight: 600; }
+.traits span { color: var(--muted); font-size: .95rem; }
+.fineprint { margin-top: 24px; font-size: .85rem; color: var(--muted); }
+@media (max-width: 900px) { .coach { grid-template-columns: 1fr; } }
+
+/* Orgs */
+.orgs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.org { border-top: 2px solid var(--ink); padding-top: 20px; display: grid; gap: 10px; align-content: start; }
+.org p { color: var(--muted); }
+.privacy { margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+.privacy > div { background: var(--surface); padding: 28px; display: grid; gap: 14px; align-content: start; }
+.privacy ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; font-size: .95rem; }
+.privacy li { display: flex; gap: 10px; }
+.yes li::before { content: "✓"; color: var(--accent); font-weight: 700; }
+.no li::before { content: "✕"; color: var(--win); font-weight: 700; }
+@media (max-width: 860px) { .orgs, .privacy { grid-template-columns: 1fr; } }
+
+/* Plans */
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.plan { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 28px; display: grid; gap: 16px; align-content: start; }
+.plan.featured { border-color: var(--accent); box-shadow: var(--shadow); }
+.plan .price { font: 700 1.6rem var(--f-display); }
+.plan p { color: var(--muted); font-size: .95rem; }
+.plan ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: .93rem; }
+.plan li { display: flex; gap: 10px; }
+.plan li::before { content: "✓"; color: var(--accent); font-weight: 700; }
+@media (max-width: 860px) { .plans { grid-template-columns: 1fr; } }
+
+/* CTA */
+.cta { padding-block: 96px; border-top: 1px solid var(--line); }
+.cta .box { background: var(--ink); color: var(--paper); border-radius: 28px; padding: clamp(32px, 6vw, 64px); display: grid; gap: 20px; }
+.cta h2 { font-size: clamp(2rem, 5vw, 3.4rem); max-width: 18ch; }
+.cta p { color: color-mix(in srgb, var(--paper) 72%, var(--ink)); max-width: 56ch; }
+form.join { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+form.join input { flex: 1 1 240px; min-width: 0; border: 1px solid color-mix(in srgb, var(--paper) 25%, var(--ink)); background: transparent; color: var(--paper); border-radius: 999px; padding: .8em 1.2em; }
+form.join input::placeholder { color: color-mix(in srgb, var(--paper) 55%, var(--ink)); }
+form.join select { border: 1px solid color-mix(in srgb, var(--paper) 25%, var(--ink)); background: var(--ink); color: var(--paper); border-radius: 999px; padding: .8em 1.2em; font: inherit; }
+.cta .btn-primary { background: var(--paper); color: var(--ink); }
+#joinMsg { font-size: .92rem; min-height: 1.4em; }
+
+footer { padding-block: 40px 56px; color: var(--muted); font-size: .88rem; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} body{margin:0} img{max-width:100%} [hidden]{display:none!important} html{scroll-behavior:smooth} section[id]{scroll-margin-top:72px}</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="STRM home">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><path d="M3 19 C 8 19, 8 7, 13 7 S 18 19, 23 19" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><circle cx="23" cy="19" r="3" fill="var(--accent)"/></svg>
+      STRM
+    </a>
+    <ul>
+      <li><a href="#vault">Career Vault</a></li>
+      <li><a href="#daily">Daily</a></li>
+      <li><a href="#stages">Stages</a></li>
+      <li><a href="#studio">Studio</a></li>
+      <li><a href="#orgs">For organizations</a></li>
+    </ul>
+    <a class="btn btn-primary" href="#join">Get early access</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Career development, every day</p>
+        <h1 style="margin-top:18px">Every workday is part of your <em>career story.</em></h1>
+        <p class="lede">STRM turns the work you already do into a living career record. Capture wins in five minutes, discover the skills behind them, and walk into your next review, raise, or interview with proof.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#join">Get early access</a>
+          <a class="btn btn-ghost" href="#try">Try skill discovery</a>
+        </div>
+        <div class="trust">
+          <span>Useful whether you're searching or happily employed</span>
+          <span>Your record stays yours</span>
+          <span>No invented accomplishments</span>
+        </div>
+      </div>
+
+      <div class="phone" aria-label="Preview of the STRM home screen">
+        <div class="screen">
+          <div>
+            <p class="sub">Tuesday, Oct 13</p>
+            <p class="hello">Good morning, Maya. Ready for your five-minute career boost?</p>
+          </div>
+          <div class="ring-row">
+            <svg class="ring" viewBox="0 0 64 64" aria-hidden="true">
+              <circle cx="32" cy="32" r="26" fill="none" stroke="var(--line)" stroke-width="7"/>
+              <circle cx="32" cy="32" r="26" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="45" transform="rotate(-90 32 32)"/>
+              <text x="32" y="37" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="14" fill="var(--ink)">72</text>
+            </svg>
+            <div>
+              <b>Review readiness</b>
+              <small>+6 this week. Add one measurable result to reach 80.</small>
+            </div>
+          </div>
+          <div class="choice c-win"><i>+</i><div><b>Capture a Win</b><small>Record something you got done</small></div></div>
+          <div class="choice c-skill"><i>↗</i><div><b>Grow a Skill</b><small>Stakeholder updates · 4 min</small></div></div>
+          <div class="choice c-explore"><i>→</i><div><b>Explore Your Future</b><small>Is Recruiting Ops a fit?</small></div></div>
+          <div class="streak">
+            <span>Weekly rhythm</span>
+            <span class="dots"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Why STRM</p>
+        <h2>Not another resume builder.</h2>
+        <p class="lede">Job boards and resume tools only matter when you're leaving. STRM is built for the years in between, when the real work happens and most of it goes unrecorded.</p>
+      </div>
+      <div class="compare">
+        <div><span class="k">The credibility of</span><h3>A professional network</h3><p>Structured, verifiable career information that reads well to recruiters and managers.</p></div>
+        <div><span class="k">The ease of</span><h3>A daily learning app</h3><p>Short activities that fit into a coffee break. Optional streaks, no cartoon rewards.</p></div>
+        <div><span class="k">The clarity of</span><h3>A health dashboard</h3><p>Clean progress views and readiness scores that explain exactly how they're calculated.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="try">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Skill discovery</p>
+        <h2>Your everyday duties hold skills you haven't named yet.</h2>
+        <p class="lede">Describe what you did at work, in plain words. STRM points out the skills behind it and shows you why. You decide what goes in your record.</p>
+      </div>
+      <div class="demo">
+        <div class="panel">
+          <label for="duties">What did you do at work recently?</label>
+          <div class="samples" role="group" aria-label="Example entries">
+            <button class="chip" data-sample="crew" aria-pressed="true">Restaurant crew</button>
+            <button class="chip" data-sample="ta" aria-pressed="false">Recruiter</button>
+            <button class="chip" data-sample="intern" aria-pressed="false">Marketing intern</button>
+          </div>
+          <textarea id="duties" spellcheck="false"></textarea>
+          <div><button class="btn btn-primary" id="discover">Find my skills</button></div>
+        </div>
+        <div class="panel" aria-live="polite">
+          <div class="tally" id="tally"></div>
+          <ul class="skills" id="skills"></ul>
+          <p style="font-size:.85rem;color:var(--muted)">Demo only. It matches keywords in your text; the real coach asks follow-up questions before suggesting anything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="vault">
+    <div class="wrap vault">
+      <div>
+        <p class="eyebrow">The Career Vault</p>
+        <h2 style="margin-top:16px">One record that grows every time you show up.</h2>
+        <p class="lede" style="margin-top:16px">Your Vault is the living record behind every resume, review, and interview answer. It starts with almost nothing and fills in through small moments.</p>
+        <ul class="vault-list" style="margin-top:28px">
+          <li><b>Work history and education</b><span>Roles, responsibilities, degrees, certifications</span></li>
+          <li><b>Wins and measurable results</b><span>Projects, outcomes, numbers you can stand behind</span></li>
+          <li><b>Feedback and milestones</b><span>Praise from managers, reviews, promotions, firsts</span></li>
+          <li><b>Growth</b><span>Goals, skills in progress, mentorship, interview prep</span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="record">
+          <div class="record-top">
+            <div><b>Maya Chen</b><br><small>Talent Acquisition Specialist · 2 yrs 4 mo</small></div>
+            <span class="tag t-confirmed">148 entries</span>
+          </div>
+          <div class="entry">
+            <p>Filled 14 engineering roles in Q3, average 38 days to offer</p>
+            <span class="tag t-confirmed">Confirmed</span>
+            <small>Win · added Sep 30 · you entered the numbers</small>
+          </div>
+          <div class="entry">
+            <p>Stakeholder management</p>
+            <span class="tag t-inferred">Inferred</span>
+            <small>Skill · from 9 entries about hiring-manager syncs · waiting for you</small>
+          </div>
+          <div class="entry">
+            <p>"Cut time-to-offer by restructuring the interview loop with four hiring managers"</p>
+            <span class="tag t-suggested">Suggested</span>
+            <small>Resume wording · needs your before/after number to keep</small>
+          </div>
+          <div class="entry">
+            <p>"Maya made our onboarding feel human." Director of Engineering</p>
+            <span class="tag t-confirmed">Confirmed</span>
+            <small>Feedback · pasted from Slack Aug 12</small>
+          </div>
+        </div>
+        <p class="rule"><b>Every entry shows where it came from.</b> Facts you confirmed, skills STRM inferred, and wording it suggested are always labeled. STRM never invents accomplishments, credentials, or metrics.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="daily">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Five minutes a day</p>
+        <h2>Pick one. Every option moves your career forward.</h2>
+        <p class="lede">Each activity takes about five minutes and adds something real to your record, your skills, or your plan.</p>
+      </div>
+      <div class="daily">
+        <div class="act act-win">
+          <span class="time">~3 min</span>
+          <h3>Capture a Win</h3>
+          <p>Record something you accomplished. The coach asks one or two questions to find the impact.</p>
+          <p class="prompt">"You mentioned fixing the scheduling backlog. Roughly how many interviews were waiting before, and after?"</p>
+        </div>
+        <div class="act act-skill">
+          <span class="time">~5 min</span>
+          <h3>Grow a Skill</h3>
+          <p>A short, practical exercise tied to a goal you set, like writing a clearer status update.</p>
+          <p class="prompt">Rewrite this three-paragraph update for a VP who has 30 seconds.</p>
+        </div>
+        <div class="act act-explore">
+          <span class="time">~4 min</span>
+          <h3>Explore Your Future</h3>
+          <p>See a realistic next step, why it might fit, and the gap between you and it.</p>
+          <p class="prompt">Recruiting Operations: 5 of 8 core skills already in your Vault. Gap: reporting tools.</p>
+        </div>
+      </div>
+      <div class="principles">
+        <span><b>Readiness scores</b> show their math</span>
+        <span><b>Streaks</b> are optional and forgiving</span>
+        <span><b>Milestones</b> mark real progress, not taps</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="stages">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">From first job to next chapter</p>
+        <h2>Six career stages. You choose yours.</h2>
+        <p class="lede">Stages shape what STRM offers you. Age never decides your stage, and you can switch any time.</p>
+      </div>
+      <div class="strand" role="tablist" aria-label="Career stages" id="strand"></div>
+      <div class="stage-card" role="tabpanel" id="stagePanel"></div>
+      <div class="statuses">
+        <h3>Plus what's happening right now</h3>
+        <p class="lede" style="font-size:1rem">Your status turns on focused coaching programs. Pick as many as apply.</p>
+        <div class="row">
+          <span class="status">Happily employed and growing</span><span class="status">Actively searching</span><span class="status">Preparing for a promotion</span><span class="status">Negotiating compensation</span><span class="status">Starting a new job</span><span class="status">Completing an internship</span><span class="status">Preparing for a review</span><span class="status">Navigating a PIP</span><span class="status">Recovering from a layoff</span><span class="status">Changing industries</span><span class="status">Returning to work</span><span class="status">Exploring entrepreneurship</span><span class="status">Preparing for retirement</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="studio">
+    <div class="wrap studio">
+      <div>
+        <p class="eyebrow">Studio</p>
+        <h2 style="margin-top:16px">Review season, sorted in one tap.</h2>
+        <p class="lede" style="margin-top:16px">Pick a time period and a document type. Studio drafts it from your Vault, then shows you every fact so you can check it before you export.</p>
+        <div class="docs">
+          <div class="doc"><small>.docx · PDF</small><b>ATS-friendly resume</b></div>
+          <div class="doc"><small>Any date range</small><b>Performance review summary</b></div>
+          <div class="doc"><small>With evidence</small><b>Promotion case</b></div>
+          <div class="doc"><small>Matched to the job</small><b>Cover letter</b></div>
+          <div class="doc"><small>Short and long</small><b>Professional bio</b></div>
+          <div class="doc"><small>After every interview</small><b>Thank-you notes</b></div>
+        </div>
+      </div>
+      <div class="sheet" aria-label="Sample performance review document">
+        <div>
+          <p class="title">Maya Chen: Annual Review Summary</p>
+          <p class="meta">Oct 2025 to Sep 2026 · drafted from 148 Vault entries</p>
+        </div>
+        <h4>Major accomplishments</h4>
+        <ul>
+          <li>Filled 41 roles across engineering and product, 9 of them senior</li>
+          <li>Redesigned the interview loop with four hiring managers; time to offer fell from 52 to 38 days</li>
+        </ul>
+        <h4>Leadership</h4>
+        <ul>
+          <li>Onboarded and mentored two new coordinators</li>
+        </ul>
+        <h4>Feedback received</h4>
+        <ul>
+          <li>"Maya made our onboarding feel human." Director of Engineering</li>
+        </ul>
+        <div class="verify">
+          <span>23 facts confirmed · 2 need your check</span>
+          <span class="tag t-inferred">Review before export</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="coach">
+    <div class="wrap coach">
+      <div class="chat" aria-label="Sample coaching conversation">
+        <p class="msg me">I think my manager is going to put me on a PIP. What do I do?</p>
+        <p class="msg ai"><span class="who">STRM Coach</span>That's stressful, and it helps to get organized early. Do you know which goals they're concerned about? If you have the plan in writing, we can turn each expectation into a dated checklist and start logging your progress against it.</p>
+        <p class="msg ai"><span class="who">STRM Coach</span>I can also help you prepare for your next one-on-one. For questions about your employment rights, an employment lawyer is the right person to ask.</p>
+      </div>
+      <div>
+        <p class="eyebrow">AI Career Coach</p>
+        <h2 style="margin-top:16px">Encouraging, but realistic.</h2>
+        <div class="traits">
+          <div><b>Knows your record</b><span>Advice draws on your Vault, so it's about you, not anyone.</span></div>
+          <div><b>Asks before it assumes</b><span>Good follow-up questions come first. Suggestions come after.</span></div>
+          <div><b>Playbooks for hard moments</b><span>PIPs, layoffs, salary talks, first 90 days, career changes.</span></div>
+          <div><b>Text now, voice later</b><span>Voice coaching is planned, with clear AI disclosure and a text-only option.</span></div>
+        </div>
+        <p class="fineprint">STRM offers career coaching, not legal, financial, or mental health advice, and it can't guarantee outcomes.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="orgs">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">For organizations</p>
+        <h2>Sponsored by your school or employer. Owned by you.</h2>
+        <p class="lede">Universities, employers, and professional associations can give their people STRM. Members keep their Vault when they graduate or change jobs.</p>
+      </div>
+      <div class="orgs">
+        <div class="org"><h3>Universities</h3><p>Career readiness for every student, not just those who visit the career center. Aggregated adoption and readiness reporting.</p></div>
+        <div class="org"><h3>Employers</h3><p>A development benefit that helps people grow and talk about their impact. Licensing, onboarding, and program analytics.</p></div>
+        <div class="org"><h3>Associations and programs</h3><p>Alumni networks, professional associations, and workforce programs supporting members through every transition.</p></div>
+      </div>
+      <div class="privacy">
+        <div class="yes"><h3>Sponsors can see</h3><ul><li>How many people activated</li><li>Overall engagement trends</li><li>Aggregated career readiness</li></ul></div>
+        <div class="no"><h3>Sponsors never see, without your explicit permission</h3><ul><li>Coaching conversations</li><li>Job searches and applications</li><li>Performance plans or reviews</li><li>Compensation discussions</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="plans">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Plans</p>
+        <h2>Start free. Upgrade when you need the Studio.</h2>
+      </div>
+      <div class="plans">
+        <div class="plan"><h3>Free</h3><p class="price">$0</p><p>Build your record and start the habit.</p><ul><li>Career Vault</li><li>Daily five-minute activities</li><li>Skill discovery</li><li>Limited coaching</li></ul></div>
+        <div class="plan featured"><h3>Premium</h3><p class="price">Pricing soon</p><p>For reviews, promotions, and job searches.</p><ul><li>Everything in Free</li><li>Unlimited coaching</li><li>Resumes in Word and PDF</li><li>Review and promotion documents</li><li>Interview and negotiation prep</li></ul></div>
+        <div class="plan"><h3>Organizations</h3><p class="price">Sponsored access</p><p>For universities, employers, and associations.</p><ul><li>Premium for every member</li><li>Admin and licensing tools</li><li>Privacy-preserving reporting</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="join">
+    <div class="wrap">
+      <div class="box">
+        <p class="eyebrow" style="color:inherit;opacity:.7">Early access</p>
+        <h2>Start capturing your career story.</h2>
+        <p>We're opening STRM to students, early-career, and mid-career professionals first. Leave your email and the stage you're in.</p>
+        <form class="join" id="joinForm" novalidate>
+          <label for="email" class="sr" hidden>Email</label>
+          <input id="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+          <label for="stage" hidden>Career stage</label>
+          <select id="stage" aria-label="Career stage">
+            <option>Career Explorer</option><option>Career Launch</option><option selected>Career Builder</option><option>Career Accelerator</option><option>Career Navigator</option><option>Career Legacy</option>
+          </select>
+          <button class="btn btn-primary" type="submit">Request access</button>
+        </form>
+        <p id="joinMsg" role="status"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 STRM. Every day of work is part of your career story.</span>
+    <span>Career coaching, not legal, financial, or medical advice.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // Stages
+  const stages = [
+    { n: "Explorer", who: "High school and college students, first jobs, anyone exploring options.",
+      f: ["Career interest exploration", "First-job experience tracking", "Transferable skill discovery", "Resume creation and interview prep", "Job application tracking"],
+      ex: "A college student working at a restaurant logs everyday duties. STRM spots customer service, cash handling, and food safety skills, then helps them confirm and document each one." },
+    { n: "Launch", who: "Interns, recent graduates, and people starting their first full-time role.",
+      f: ["30/60/90-day success plans", "Workplace communication coaching", "Building a relationship with your manager", "Understanding performance expectations", "Documenting early projects"],
+      ex: "An intern gets a weekly challenge: meet two people outside their department, learn about their roles, and note what they discovered." },
+    { n: "Builder", who: "Professionals building expertise and preparing for more responsibility.",
+      f: ["Accomplishment and impact tracking", "Performance review preparation", "Promotion readiness", "Salary negotiation prep", "Certification tracking"],
+      ex: "A data analyst logs a dashboard that saved their team six hours a week. Three months later, it's the first line of their promotion case." },
+    { n: "Accelerator", who: "Mid-career professionals, managers, and people pursuing leadership.",
+      f: ["Leadership and team management coaching", "Difficult conversations", "Executive communication", "Performance review reports", "Long-term career planning"],
+      ex: "A manager preparing for an annual review generates a summary of 12 months of results, completed goals, feedback, and leadership." },
+    { n: "Navigator", who: "Experienced professionals weighing major moves or new industries.",
+      f: ["Career reinvention planning", "Industry transition analysis", "Executive resume development", "Consulting and entrepreneurship exploration", "Networking strategy"],
+      ex: "A hospital operations director exploring health tech maps which skills transfer directly and which gaps to close first." },
+    { n: "Legacy", who: "Late-career professionals, retirees, mentors, and people starting a next chapter.",
+      f: ["Retirement transition planning", "Mentorship matching", "Advisory and board opportunities", "Knowledge transfer", "Flexible and part-time work"],
+      ex: "A retiring engineering VP turns 30 years of work into an accomplishment archive and prepares to mentor through a professional association." }
+  ];
+  const strand = document.getElementById("strand"), panel = document.getElementById("stagePanel");
+  stages.forEach((s, i) => {
+    const b = document.createElement("button");
+    b.className = "stage-btn"; b.role = "tab"; b.id = "stage-" + i;
+    b.setAttribute("aria-controls", "stagePanel");
+    b.innerHTML = `<span class="node">${i + 1}</span><span class="lbl">${s.n}</span>`;
+    b.addEventListener("click", () => select(i));
+    strand.appendChild(b);
+  });
+  function select(i) {
+    [...strand.children].forEach((b, j) => b.setAttribute("aria-selected", String(i === j)));
+    const s = stages[i];
+    panel.setAttribute("aria-labelledby", "stage-" + i);
+    panel.innerHTML = `<div><p class="eyebrow">Stage ${i + 1} of 6</p><h3 style="margin-top:10px">Career ${s.n}</h3><p class="who">${s.who}</p>
+      <div class="example"><b>Example</b>${s.ex}</div></div>
+      <ul>${s.f.map(x => `<li>${x}</li>`).join("")}</ul>`;
+  }
+  select(2);
+
+  // Skill discovery demo
+  const samples = {
+    crew: "Took guest orders on the line during the lunch rush\nCounted the cash drawer at close\nChecked food temperatures and logged them every two hours\nCovered shifts when teammates were out\nTrained two new hires on the grill station",
+    ta: "Sourced candidates for 12 open engineering roles\nScheduled interviews with hiring managers\nBuilt a weekly pipeline report in a spreadsheet\nResolved offer-letter issues with candidates",
+    intern: "Researched competitor pricing and summarized it\nPresented findings at the team meeting\nWrote the weekly update email for my manager\nUpdated the project dashboard each Friday"
+  };
+  const rules = [
+    [/guest|customer|order|client/i, "Customer service"],
+    [/cash|register|drawer|payment/i, "Cash handling and accuracy"],
+    [/food|temperature|sanit|safety/i, "Food safety compliance"],
+    [/cover|teammate|team|crew/i, "Teamwork and reliability"],
+    [/train|new hire|onboard|mentor/i, "Training and onboarding others"],
+    [/rush|peak|deadline|fast/i, "Working under pressure"],
+    [/log|track|record|every two/i, "Detail-oriented record keeping"],
+    [/sourc|candidate|recruit|pipeline/i, "Candidate sourcing"],
+    [/schedul|calendar|coordinat/i, "Scheduling and coordination"],
+    [/hiring manager|stakeholder|manager/i, "Stakeholder management"],
+    [/report|spreadsheet|dashboard|excel|data/i, "Data reporting"],
+    [/resolv|issue|problem|fix/i, "Problem solving"],
+    [/research|competitor|analy/i, "Research and analysis"],
+    [/present|meeting|slides/i, "Presenting to groups"],
+    [/wrote|write|email|summar/i, "Written communication"]
+  ];
+  const ta = document.getElementById("duties"), list = document.getElementById("skills"), tally = document.getElementById("tally");
+  let found = [];
+  function setSample(key) {
+    ta.value = samples[key];
+    document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", String(c.dataset.sample === key)));
+  }
+  function discover() {
+    const lines = ta.value.split("\n").map(l => l.trim()).filter(Boolean);
+    found = [];
+    rules.forEach(([re, name]) => {
+      const line = lines.find(l => re.test(l));
+      if (line && !found.some(f => f.name === name)) found.push({ name, line, state: "inferred" });
+    });
+    render();
+  }
+  function esc(s) { return s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+  function render() {
+    const c = found.filter(f => f.state === "confirmed").length, r = found.filter(f => f.state === "inferred").length;
+    tally.innerHTML = `<span><b>${found.length}</b> skills found</span><span><b>${c}</b> confirmed</span><span><b>${r}</b> to review</span>`;
+    if (!found.length) { list.innerHTML = `<li class="empty">No skills spotted yet. Try describing a task with a bit more detail, like who you helped or what you tracked.</li>`; return; }
+    list.innerHTML = found.map((f, i) => `
+      <li class="skill ${f.state}">
+        <span class="name">${esc(f.name)}</span>
+        ${f.state === "inferred"
+          ? `<span class="acts"><button data-i="${i}" data-a="confirmed">Confirm</button><button data-i="${i}" data-a="dismissed">Not me</button></span>`
+          : `<span class="tag ${f.state === "confirmed" ? "t-confirmed" : "t-inferred"}">${f.state === "confirmed" ? "Confirmed" : "Removed"}</span>`}
+        <span class="why">${f.state === "inferred" ? '<span class="tag t-inferred" style="margin-right:8px">Inferred</span>' : ""}From: "${esc(f.line)}"</span>
+      </li>`).join("");
+  }
+  list.addEventListener("click", e => {
+    const b = e.target.closest("button[data-i]"); if (!b) return;
+    found[+b.dataset.i].state = b.dataset.a; render();
+  });
+  document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => { setSample(c.dataset.sample); discover(); }));
+  document.getElementById("discover").addEventListener("click", discover);
+  setSample("crew"); discover();
+  found[0].state = "confirmed"; found[1].state = "confirmed"; render();
+
+  // Early access form (not connected to a backend yet)
+  document.getElementById("joinForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const email = document.getElementById("email"), msg = document.getElementById("joinMsg");
+    if (!email.checkValidity() || !email.value) { msg.textContent = "Enter a valid email address, like name@example.com."; email.focus(); return; }
+    msg.textContent = "Thanks. Sign-ups aren't connected on this preview yet, so nothing was sent.";
+  });
+})();
+</script>
+</body>
+</html>
