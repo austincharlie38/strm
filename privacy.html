@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STRM Privacy Policy</title>
+<meta name="description" content="How the STRM app handles your career information.">
+<meta name="theme-color" content="#5CB9BE">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root { --paper:#F3F7F8; --surface:#FFFFFF; --ink:#0B2E3C; --muted:#536A73; --line:#D6E2E5; --accent:#10707A; --accent-soft:#DAEFF0; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --paper:#071419; --surface:#0D1E25; --ink:#E2EFF1; --muted:#8FA7AE; --line:#1C3039; --accent:#5CC4C9; --accent-soft:#10303A; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.65 "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif; }
+main { max-width: 760px; margin: 0 auto; padding: 48px 20px 80px; }
+a { color: var(--accent); }
+.back { font: 500 .75rem/1 "IBM Plex Mono", ui-monospace, monospace; text-transform: uppercase; letter-spacing: .12em; text-decoration: none; }
+h1, h2 { font-family: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif; letter-spacing: -0.02em; line-height: 1.1; }
+h1 { font-size: clamp(2rem, 6vw, 2.8rem); margin: 20px 0 8px; }
+h2 { font-size: 1.35rem; margin: 40px 0 10px; }
+.updated { color: var(--muted); margin: 0 0 28px; }
+.summary { background: var(--accent-soft); border-radius: 16px; padding: 18px 22px; }
+.summary ul { margin: 8px 0 0; padding-left: 20px; }
+ul { padding-left: 22px; }
+li { margin: 4px 0; }
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="./">← STRM</a>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated November 7, 2026</p>
+
+  <div class="summary">
+    <strong>The short version</strong>
+    <ul>
+      <li>Your Career Vault, profile, and coaching history are stored on your iPhone. STRM doesn't have accounts and doesn't upload your record.</li>
+      <li>AI coaching and AI reading of an imported LinkedIn PDF or resume only start after you agree, send the minimum needed, and our server doesn't keep what you send.</li>
+      <li>No ads, no tracking, and we never sell your data. Sponsors and employers never see your record.</li>
+    </ul>
+  </div>
+
+  <h2>Who we are</h2>
+  <p>STRM is a career development app for iPhone. This policy explains what information the app handles, where it goes, and the choices you have. Questions: <a href="mailto:strmrecruiting@gmail.com">strmrecruiting@gmail.com</a>.</p>
+
+  <h2>Information stored on your device</h2>
+  <p>Everything you add to STRM stays on your iPhone: your name, optional email, location, optional photo, career stage and status, goals, Career Vault entries (roles, education, wins, skills, feedback, milestones), daily activity history, and coaching conversations. Files you import (a LinkedIn profile PDF or a resume) are read on your device unless you choose to have AI read them, as described below. The files themselves are never uploaded or kept by us. STRM saves a copy of the file you import on your iPhone so you can open or re-read it from Profile → Resume &amp; LinkedIn; remove it there anytime, or with Delete all my data.</p>
+  <p>Documents you create in Studio are generated on your device. They leave it only if you choose to share or save them.</p>
+
+  <h2>AI coaching</h2>
+  <p>STRM's coach can use artificial intelligence to write its replies. Because that runs on a server, it only starts after you agree on the "Before your coach uses AI" screen. If you don't agree, or you turn AI coaching off later in <strong>Profile → Privacy</strong>, STRM's on-device coach answers instead and nothing is sent.</p>
+  <p><strong>What we send.</strong> Each time you message the coach with AI coaching on, the app sends:</p>
+  <ul>
+    <li>your message and up to 16 earlier messages from the same conversation;</li>
+    <li>your first name, current role, career stage, the situations you selected under "Right now", and your main goal;</li>
+    <li>the titles of the wins and skills you've confirmed in your Career Vault, and how many of your wins include a measurable result;</li>
+    <li>a random app ID created when you install STRM. It isn't linked to your name, Apple Account, or device hardware, and is used only for usage limits and abuse prevention.</li>
+  </ul>
+  <p>We don't send your email, location, photo, Vault items you haven't confirmed, or the details of your Vault entries beyond their titles.</p>
+  <p><strong>Who receives it.</strong> The request travels over an encrypted connection (HTTPS) to STRM's server, hosted by Supabase, Inc. Our server passes it to Anthropic, PBC, maker of the Claude AI model, which writes the reply. Anthropic processes this data as our service provider and does not use it to train its models.</p>
+  <p><strong>How long it's kept.</strong> Our server doesn't store your messages or the coach's replies; it forwards them and discards them once the reply is sent. To apply usage limits, it keeps a usage record for 30 days: the random app ID, a salted one-way hash of your IP address (not the address itself), the time of the request, and its processing cost. Anthropic deletes the data it receives within 30 days, except where its safety systems flag it for longer review or the law requires otherwise.</p>
+  <p><strong>Limits.</strong> The coach offers career coaching, not legal, financial, or mental health advice, and AI can make mistakes. It is instructed to use only what you've told it and what you've confirmed, and never to invent accomplishments or numbers. If a message suggests you may be in crisis, the app shows crisis resources (in the US, call or text 988) instead of coaching.</p>
+
+  <h2>Reading your LinkedIn PDF or resume with AI</h2>
+  <p>When you set up STRM, you can import your LinkedIn profile (saved as a PDF from LinkedIn) or a resume so STRM can fill in your profile and Vault. STRM asks first, on the "Read your PDF with AI?" screen. If you choose "Read on this iPhone instead", nothing is sent and STRM picks out only listed skills and your name on the device.</p>
+  <p><strong>What we send.</strong> The text of the file you chose, after the app removes email addresses, phone numbers, and links on your phone. The same random app ID described above is included for usage limits. We don't send the file itself, your photo, or anything else from your Vault.</p>
+  <p><strong>Who receives it and how long it's kept.</strong> Like AI coaching, the text goes over an encrypted connection to STRM's server (hosted by Supabase, Inc.), which passes it to Anthropic, PBC to read it. Our server doesn't store the text; it returns what was found to your phone and discards it. The same 30-day usage record applies, and Anthropic deletes the data within 30 days except where its safety systems flag it for longer review or the law requires otherwise. Anthropic doesn't use it to train its models.</p>
+  <p><strong>What happens to the results.</strong> Everything found (your name, location, roles, education, certifications, and skills) is saved only on your iPhone and marked "Inferred" until you confirm it. STRM doesn't connect to your LinkedIn account; it only reads the file you pick.</p>
+
+  <h2>Subscriptions</h2>
+  <p>STRM Premium is sold through Apple. Apple handles payment and shares only what's needed to confirm your subscription with the app. We never see your payment details. Manage or cancel in Settings → Apple Account → Subscriptions.</p>
+
+  <h2>What we don't do</h2>
+  <ul>
+    <li>We don't use analytics, advertising, or tracking tools, and we don't track you across other apps or websites.</li>
+    <li>We don't sell or rent your information.</li>
+    <li>We don't access LinkedIn, Indeed, or other accounts. Anything imported comes from files you choose.</li>
+    <li>Schools, employers, or other sponsors never receive your coaching conversations, job searches, performance plans, or compensation discussions without your explicit permission.</li>
+  </ul>
+
+  <h2>Your choices</h2>
+  <ul>
+    <li><strong>Export:</strong> Profile → Your data → Export my data gives you a copy of your Vault.</li>
+    <li><strong>Delete:</strong> Profile → Your data → Delete all my data erases your profile, Vault, activity, and coaching history from your device. Deleting the app does the same.</li>
+    <li><strong>AI coaching:</strong> turn it on or off any time in Profile → Privacy.</li>
+    <li><strong>Imports:</strong> STRM asks before reading an import with AI. Turn "Read imports with AI" off in Profile → Privacy to be asked again, or choose "Read on this iPhone instead".</li>
+  </ul>
+
+  <h2>Children</h2>
+  <p>STRM isn't directed to children under 13, and we don't knowingly collect information from them.</p>
+
+  <h2>Changes</h2>
+  <p>If we change what STRM collects or who receives it, we'll update this page and the date above, and ask for your agreement again in the app before sending anything new.</p>
+
+  <footer>© 2026 STRM · <a href="./">strm home</a></footer>
+</main>
+</body>
+</html>
